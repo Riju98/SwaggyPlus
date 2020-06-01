@@ -106,5 +106,12 @@ public class Dish {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "Dish [description=" + description + ", dishName=" + dishName + ", dish_id=" + dish_id
+				+ ", free_delivery=" + free_delivery + ", img_url=" + img_url + ", isVeg=" + isVeg + ", price=" + price
+				+ "]";
+	}
+
     }
     

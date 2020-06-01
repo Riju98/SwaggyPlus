@@ -92,4 +92,10 @@ public class Restaurant {
     this.dishes = dishes;
   }
 
+  @Override
+  public String toString() {
+    return "Restaurant [dishes=" + dishes + ", isActive=" + isActive + ", rating=" + rating + ", resAddress="
+        + resAddress + ", resId=" + resId + ", resName=" + resName + "]";
+  }
+
 }

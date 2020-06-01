@@ -96,16 +96,46 @@ public class Usercontroller {
             @PostMapping(value="/{userId}/cart/{dishId}")
             public Cart addToCart(@PathVariable Integer userId,@PathVariable Long dishId) {
                 User u=user.findById(userId).get();
+                System.out.println(u);
                 Dish d=dish.findById(dishId).get();
+                System.out.println(d);
                 Cart c= cart.findByuser(u);
-                Restaurant byDish = restaurant.findByDishesContaining(dish);
+                Restaurant byDish = restaurant.findByDishesContaining(d);
+                System.out.println(byDish);
+                try{       
+                        Restaurant byId = c.getRestaurant();
+                        System.out.println(byId);
+
+                        if(byDish.getResId() == byId.getResId())
+                        {
+                            List<Dish> d1=c.getdishes();
+                            d1.add(d);
+                            c.setdishes(d1);
+                            c.settotalAmount(this.calculateCost(d1));
+                            c=cart.save(c);
+                            return c;
+                        }  
+                        else
+                        {
+                            List<Dish> d1=c.getdishes();
+                            d1.clear();
+                            d1.add(d);
+                            c.setdishes(d1);
+                            c.settotalAmount(this.calculateCost(d1));
+                            c.setRestaurant(byDish);
+                            c=cart.save(c);
+                            return c;
+                        }
+                    } catch(Exception e){
                         List<Dish> d1=c.getdishes();
-                        d1.add(d);
-                        c.setdishes(d1);
-                        c.settotalAmount(this.calculateCost(d1));
-                        c=cart.save(c);
-                        return c;
-                    
+                            d1.clear();
+                            d1.add(d);
+                            c.setdishes(d1);
+                            c.settotalAmount(this.calculateCost(d1));
+                            c.setRestaurant(byDish);
+                            c=cart.save(c);
+                            return c;
+                    }
                 }
                 
             
